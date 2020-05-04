@@ -12,7 +12,7 @@ class Controls extends Component {
   };
 
   render() {
-    const { handleMoveBack, handleMoveForward, selectedTask } = this.props;
+    const { selectedTask } = this.props;
 
     return (
       <div style={{ padding: '1rem', background: '#D6F3FF' }}>
