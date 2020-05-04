@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 
 import Controls from './components/Controls';
@@ -9,27 +9,25 @@ import { DIRECTION } from './constants';
 
 const NUM_STAGES = 4;
 
-class App extends Component {
-  state = {
-    tasks: [
-        { name: 'task 0', stage: 0 },
-        { name: 'task 1', stage: 0 },
-        { name: 'task 2', stage: 0 },
-        { name: 'task 3', stage: 0 },
-        { name: 'task 4', stage: 1 },
-        { name: 'task 5', stage: 1 },
-        { name: 'task 6', stage: 1 },
-        { name: 'task 7', stage: 2 },
-        { name: 'task 8', stage: 2 },
-        { name: 'task 9', stage: 3 },
-    ],
-    selectedTaskName: '',
-  };
+const App = () => {
+  const [tasks, setTasks] = useState([
+    { name: 'task 0', stage: 0 },
+    { name: 'task 1', stage: 0 },
+    { name: 'task 2', stage: 0 },
+    { name: 'task 3', stage: 0 },
+    { name: 'task 4', stage: 1 },
+    { name: 'task 5', stage: 1 },
+    { name: 'task 6', stage: 1 },
+    { name: 'task 7', stage: 2 },
+    { name: 'task 8', stage: 2 },
+    { name: 'task 9', stage: 3 },
+  ]);
 
-  stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
+  const [selectedTaskName, setSelectedTaskName] = useState('');
 
-  handleMoveTask = direction => {
-    const { tasks, selectedTaskName } = this.state;
+  const stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
+
+  const handleMoveTask = direction => {
     const nextTasks = [...tasks];
     const selectedTaskIndex = nextTasks.findIndex(task => task.name === selectedTaskName);
     const selectedTask = { ...nextTasks[selectedTaskIndex] };
@@ -42,61 +40,53 @@ class App extends Component {
 
     nextTasks.splice(selectedTaskIndex, 1);
     nextTasks.push(selectedTask);
-    this.setState({ tasks: nextTasks });
+    setTasks(nextTasks);
   };
 
-  handleSelectTask = selectedTaskName => {
-    this.setState({ selectedTaskName });
-  };
-
-  renderTask = task => (
+  const renderTask = task => (
     <Task
       key={task.name}
       name={task.name}
-      handleSelectTask={this.handleSelectTask}
+      handleSelectTask={nextSelectedTaskName => setSelectedTaskName(nextSelectedTaskName)}
     />
   );
 
-  renderStage = (tasks, idx) => (
+  const renderStage = (stageTasks, idx) => (
     <Stage
       stageId={idx}
-      key={this.stagesNames[idx]}
-      name={this.stagesNames[idx]}
-      tasks={tasks}
-      renderTask={this.renderTask}
+      key={stagesNames[idx]}
+      name={stagesNames[idx]}
+      tasks={stageTasks}
+      renderTask={renderTask}
     />
   );
 
-  render() {
-    const { tasks, selectedTaskName } = this.state;
-
-    let stagesTasks = [];
-    let selectedTask;
-    for (let i = 0; i < NUM_STAGES; ++i) {
-      stagesTasks.push([]);
-    }
-    for (let task of tasks) {
-      const stageId = task.stage;
-      stagesTasks[stageId].push(task);
-
-      if (task.name === selectedTaskName) {
-        selectedTask = task;
-      }
-    }
-
-    return (
-      <div className="App">
-        <Controls
-          handleMoveTask={this.handleMoveTask}
-          selectedTask={selectedTask}
-        />
-        <Board
-          stagesTasks={stagesTasks}
-          renderStage={this.renderStage}
-        />
-      </div>
-    );
+  let stagesTasks = [];
+  let selectedTask;
+  for (let i = 0; i < NUM_STAGES; ++i) {
+    stagesTasks.push([]);
   }
+  for (let task of tasks) {
+    const stageId = task.stage;
+    stagesTasks[stageId].push(task);
+
+    if (task.name === selectedTaskName) {
+      selectedTask = task;
+    }
+  }
+
+  return (
+    <div className="App">
+      <Controls
+        handleMoveTask={handleMoveTask}
+        selectedTask={selectedTask}
+      />
+      <Board
+        stagesTasks={stagesTasks}
+        renderStage={renderStage}
+      />
+    </div>
+  );
 }
 
 export default App;
