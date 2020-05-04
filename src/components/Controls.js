@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 
 class Controls extends Component {
   handleBack = () => {
-    const { handleMoveTask, selectedTask } = this.props;
-    handleMoveTask(selectedTask.name, 'back');
+    const { handleMoveTask } = this.props;
+    handleMoveTask('back');
   };
 
   handleForward = () => {
-    const { handleMoveTask, selectedTask } = this.props;
-    handleMoveTask(selectedTask.name, 'forward');
+    const { handleMoveTask } = this.props;
+    handleMoveTask('forward');
   };
 
   render() {

@@ -26,10 +26,10 @@ class App extends Component {
     this.stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
   }
 
-  handleMoveTask = (selectedTaskName, direction) => {
+  handleMoveTask = (direction) => {
     const { tasks } = this.state;
     const nextTasks = [...tasks];
-    const selectedTaskIndex = tasks.findIndex(task => task.name === selectedTaskName);
+    const selectedTaskIndex = tasks.findIndex(task => task.selected);
     const selectedTask = { ...nextTasks[selectedTaskIndex] };
     if (direction === 'back' && selectedTask.stage > 0) {
       selectedTask.stage -= 1;
