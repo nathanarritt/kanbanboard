@@ -1,12 +1,14 @@
 import React from 'react';
 
+import { DIRECTION } from '../constants';
+
 const Controls = ({ handleMoveTask, selectedTask }) => {
   const handleBack = () => {
-    handleMoveTask('back');
+    handleMoveTask(DIRECTION.BACK);
   };
 
   const handleForward = () => {
-    handleMoveTask('forward');
+    handleMoveTask(DIRECTION.FORWARD);
   };
 
   return (

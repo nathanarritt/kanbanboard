@@ -3,6 +3,9 @@ import './App.css';
 
 import Controls from './components/Controls';
 import Board from './components/Board';
+import Stage from './components/Stage';
+import Task from './components/Task';
+import { DIRECTION } from './constants';
 
 const NUM_STAGES = 4;
 
@@ -32,11 +35,13 @@ class App extends Component {
     const nextTasks = [...tasks];
     const selectedTaskIndex = nextTasks.findIndex(task => task.name === selectedTaskName);
     const selectedTask = { ...nextTasks[selectedTaskIndex] };
-    if (direction === 'back' && selectedTask.stage > 0) {
+
+    if (direction === DIRECTION.BACK && selectedTask.stage > 0) {
       selectedTask.stage -= 1;
-    } else if (direction === 'forward' && selectedTask.stage < 3) {
+    } else if (direction === DIRECTION.FORWARD && selectedTask.stage < 3) {
       selectedTask.stage += 1;
     }
+
     nextTasks.splice(selectedTaskIndex, 1);
     nextTasks.push(selectedTask);
     this.setState({ tasks: nextTasks });
@@ -45,6 +50,24 @@ class App extends Component {
   handleSelectTask = (selectedTaskName) => {
     this.setState({ selectedTaskName });
   };
+
+  renderTask = (task) => (
+    <Task
+      key={task.name}
+      name={task.name}
+      handleSelectTask={this.handleSelectTask}
+    />
+  );
+
+  renderStage = (tasks, idx) => (
+    <Stage
+      stageId={idx}
+      key={this.stagesNames[idx]}
+      name={this.stagesNames[idx]}
+      tasks={tasks}
+      renderTask={this.renderTask}
+    />
+  );
 
   render() {
     const { tasks, selectedTaskName } = this.state;
@@ -71,8 +94,7 @@ class App extends Component {
         />
         <Board
           stagesTasks={stagesTasks}
-          stagesNames={this.stagesNames}
-          handleSelectTask={this.handleSelectTask}
+          renderStage={this.renderStage}
         />
       </div>
     );

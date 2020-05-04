@@ -8,6 +8,7 @@ const Task = ({ name, handleSelectTask }) => {
   const handleSelect = () => {
     handleSelectTask(name);
   };
+
   return (
     <div
       style={{
@@ -20,6 +21,6 @@ const Task = ({ name, handleSelectTask }) => {
       {name}
     </div>
   );
-}
+};
 
 export default Task;
