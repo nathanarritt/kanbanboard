@@ -30,7 +30,7 @@ class App extends Component {
     this.stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
   }
 
-  handleMoveTask = (direction) => {
+  handleMoveTask = direction => {
     const { tasks, selectedTaskName } = this.state;
     const nextTasks = [...tasks];
     const selectedTaskIndex = nextTasks.findIndex(task => task.name === selectedTaskName);
@@ -47,11 +47,11 @@ class App extends Component {
     this.setState({ tasks: nextTasks });
   };
 
-  handleSelectTask = (selectedTaskName) => {
+  handleSelectTask = selectedTaskName => {
     this.setState({ selectedTaskName });
   };
 
-  renderTask = (task) => (
+  renderTask = task => (
     <Task
       key={task.name}
       name={task.name}
