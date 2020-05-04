@@ -43,7 +43,7 @@ class App extends Component {
 
   handleSelectTask = (selectedTaskName) => {
     const { tasks } = this.state;
-    const nextTasks = [...tasks].map(task => {
+    const nextTasks = tasks.map(task => {
       if (task.name === selectedTaskName) {
         task.selected = true;
       } else {
