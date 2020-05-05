@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Stage = ({ name, stageId, tasks, renderTask }) => (
+const Stage = ({ name, stageId, children }) => (
   <div
     data-testid={`stage-${stageId}`}
     style={{
@@ -11,7 +11,7 @@ const Stage = ({ name, stageId, tasks, renderTask }) => (
     }}>
     <h2>{name}</h2>
     <div>
-      {tasks.map(task => renderTask(task))}
+      {children}
     </div>
   </div>
 );

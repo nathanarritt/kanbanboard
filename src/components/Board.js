@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Board = ({ stagesTasks, renderStage }) => (
+const Board = ({ children }) => (
   <div>
     <h1>Kanban board</h1>
     <div style={{
       display: 'flex',
     }}>
-      {stagesTasks.map((tasks, idx) => renderStage(tasks, idx))}
+      {children}
     </div>
   </div>
 );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './App.css';
 
 import Controls from './components/Controls';
@@ -25,8 +26,6 @@ const App = () => {
 
   const [selectedTaskName, setSelectedTaskName] = useState('');
 
-  const stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
-
   const handleMoveTask = direction => {
     const nextTasks = [...tasks];
     const selectedTaskIndex = nextTasks.findIndex(task => task.name === selectedTaskName);
@@ -43,29 +42,16 @@ const App = () => {
     setTasks(nextTasks);
   };
 
-  const renderTask = task => (
-    <Task
-      key={task.name}
-      name={task.name}
-      handleSelectTask={nextSelectedTaskName => setSelectedTaskName(nextSelectedTaskName)}
-    />
-  );
+  const handleSelectTask = nextSelectedTaskName => setSelectedTaskName(nextSelectedTaskName);
 
-  const renderStage = (stageTasks, idx) => (
-    <Stage
-      stageId={idx}
-      key={stagesNames[idx]}
-      name={stagesNames[idx]}
-      tasks={stageTasks}
-      renderTask={renderTask}
-    />
-  );
-
+  const stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
   let stagesTasks = [];
   let selectedTask;
+
   for (let i = 0; i < NUM_STAGES; ++i) {
     stagesTasks.push([]);
   }
+
   for (let task of tasks) {
     const stageId = task.stage;
     stagesTasks[stageId].push(task);
@@ -81,10 +67,23 @@ const App = () => {
         handleMoveTask={handleMoveTask}
         selectedTask={selectedTask}
       />
-      <Board
-        stagesTasks={stagesTasks}
-        renderStage={renderStage}
-      />
+      <Board>
+        {stagesTasks.map((tasks, idx) => (
+          <Stage
+            stageId={idx}
+            key={stagesNames[idx]}
+            name={stagesNames[idx]}
+          >
+            {tasks.map(task => (
+              <Task
+                key={task.name}
+                name={task.name}
+                handleSelectTask={handleSelectTask}
+              />
+            ))}
+          </Stage>
+        ))}
+      </Board>
     </div>
   );
 }
