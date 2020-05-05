@@ -42,8 +42,6 @@ const App = () => {
     setTasks(nextTasks);
   };
 
-  const handleSelectTask = nextSelectedTaskName => setSelectedTaskName(nextSelectedTaskName);
-
   const stagesNames = ['Backlog', 'To Do', 'Ongoing', 'Done'];
   let stagesTasks = [];
   let selectedTask;
@@ -78,7 +76,7 @@ const App = () => {
               <Task
                 key={task.name}
                 name={task.name}
-                handleSelectTask={handleSelectTask}
+                handleSelectTask={nextSelectedTaskName => setSelectedTaskName(nextSelectedTaskName)}
               />
             ))}
           </Stage>
